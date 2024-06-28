@@ -29,6 +29,14 @@ export const createUserAccount = async (user) => {
   }
 };
 
+export const getInitials = (userData) => {
+  try {
+    return avatars.getInitials(userData.name);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const setUserDataInLocalStorage = (userData) => {
   try {
     localStorage.setItem("userData", JSON.stringify(userData));
@@ -46,7 +54,7 @@ export const saveUserToDB = async (user) => {
       {
         email: user.email,
         name: user.name,
-        id: user.$id
+        id: user.$id,
       }
     );
     console.log(newUser);
@@ -98,28 +106,3 @@ export const signOutAccount = async () => {
   }
 };
 
-export const createPost = async ({
-  title,
-  slug,
-  content,
-  image,
-  status,
-  userId,
-}) => {
-  try {
-    return await databases.createDocument(
-      appwriteConfig.databaseId,
-      appwriteConfig.articleCollectionId,
-      slug,
-      {
-        title,
-        content,
-        image,
-        status,
-        userId,
-      }
-    );
-  } catch (error) {
-    console.log(error);
-  }
-};

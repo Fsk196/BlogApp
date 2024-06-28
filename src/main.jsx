@@ -21,6 +21,7 @@ import Contact from "./root/pages/Contact.jsx";
 import SignUp from "./auth/forms/SignUp.jsx";
 import { login } from "./features/auth/authSlice.js";
 import { account } from "./lib/appwrite.js";
+import BlogDetail from "./root/pages/BlogDetail.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -37,6 +38,7 @@ const router = createBrowserRouter(
           <Route index path="/create-blog" element={<Blog />} />
           <Route index path="/about" element={<About />} />
           <Route index path="/contact" element={<Contact />} />
+          <Route index path="/blog/:slug" element={<BlogDetail />} />
         </Route>
       </Route>
     </Route>

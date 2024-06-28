@@ -3,7 +3,7 @@ import { cn } from "../utils/cn";
 import { HoveredLink, Menu, MenuItem, ProductItem } from "./ui/navbar-menu";
 import { HiOutlineMenu, HiX } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
-import { signOutAccount } from "../lib/api";
+import { getInitials, signOutAccount } from "../lib/api";
 import { Input } from "./ui/Input";
 import { Select, SelectTrigger, SelectValue } from "./ui/select";
 import {
@@ -12,11 +12,23 @@ import {
   SelectItem,
   SelectLabel,
 } from "@radix-ui/react-select";
+import { useSelector } from "react-redux";
+import { Button } from "./ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 const Navbar = () => {
   const [active, setActive] = useState(null);
   const navigate = useNavigate();
   const [isNav, setIsNav] = useState(false);
+  const userData = useSelector((state) => state.auth.userData);
 
   const handleLogout = async () => {
     try {
@@ -47,7 +59,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="container w-full mx-auto h-20 flex justify-between items-center shadow-lg rounded-md">
+    <div className="px-20 w-full mx-auto h-20 flex justify-between items-center shadow-lg rounded-md">
       <div className="hidden md:flex justify-between w-full items-center">
         <div className="">
           <Link to="/">
@@ -81,16 +93,59 @@ const Navbar = () => {
             <Link to="/contact">
               <MenuItem setActive={setActive} active={active} item="Contact" />
             </Link>
-            <button
+            {/* <button
               id="logout-btn"
               className="bg-red-600 hover:bg-red-600/90 shadow-md shadow-red-600 px-4 py-2 rounded-md"
               onClick={handleLogout}
             >
               <MenuItem setActive={setActive} active={active} item="Logout" />
-            </button>
+            </button> */}
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="h-14 text-lg rounded-lg font-normal bg-transparent hover:bg-transparent border-none outline-none  focus:outline-none focus:bg-transparent focus-visible:ring-offset-0 hover:text-white flex items-center gap-4"
+                >
+                  <img
+                    src={getInitials(userData)}
+                    alt="user profile"
+                    className="w-10 h-10 rounded-full border-2 border-white bg-white"
+                  />
+                  {/* <h2>{userData.name}</h2> */}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56 bg-transparent text-white">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem>
+                    <Link to="/profile">Profile</Link>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem className="">
+                    <button
+                      id="logout-btn"
+                      className="bg-red-600 hover:shadow-md hover:shadow-red-500 shadow-sm px-4 py-2 rounded-lg"
+                      onClick={handleLogout}
+                    >
+                      <MenuItem
+                        setActive={setActive}
+                        active={active}
+                        item="Logout"
+                      />
+                    </button>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </Menu>
         </div>
       </div>
+
+      {/* Mobile Navbar starts here */}
 
       <div className="relative container w-full mx-auto h-20 flex justify-between items-center shadow-lg rounded-md md:hidden">
         <div className="">
