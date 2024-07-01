@@ -12,6 +12,12 @@ export const createPost = async ({
   slug,
 }) => {
   try {
+    //Upload image to appwrite Storage
+    const uploadImage = await uploadFile(image);
+    if (!uploadImage) {
+      throw new Error("Failed to upload image");
+    }
+
     return await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.articleCollectionId,
@@ -19,7 +25,7 @@ export const createPost = async ({
       {
         title,
         content,
-        image,
+        image: uploadImage.$id,
         status,
         userId,
         date,
@@ -80,16 +86,33 @@ export const getPost = async (slug) => {
   }
 };
 
-export const getPosts = async (queries = [Query.equal("status", "active")]) => {
+export const getPosts = async (
+  queries = [Query.equal("status", true), Query.orderDesc("date")]
+) => {
   try {
-    return await databases.listDocuments(
+    const response = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.articleCollectionId,
       queries
     );
+    return response.documents;
   } catch (error) {
     console.log(error);
     return false;
+  }
+};
+
+export const getUserById = async (userId) => {
+  try {
+    const user = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      [Query.equal("userId", userId)]
+    );
+    return user.documents[0]; // Assuming userId is unique
+  } catch (error) {
+    console.log(error);
+    return null;
   }
 };
 
@@ -111,20 +134,17 @@ export const uploadFile = async (file) => {
 export const deleteFile = async (fileId) => {
   try {
     await storage.deleteFile(appwriteConfig.storageId, fileId);
-    return true
+    return true;
   } catch (error) {
     console.log(error);
     return false;
   }
 };
 
-export const getFilePreview = async (fileId) => {
+export const getFileView = async (fileId) => {
   try {
-    return storage.getFilePreview(
-      appwriteConfig.storageId,
-      fileId
-    )
+    return storage.getFileView(appwriteConfig.storageId, fileId);
   } catch (error) {
     console.log(error);
   }
-}
+};

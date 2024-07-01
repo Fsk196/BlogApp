@@ -2,8 +2,7 @@ import React from "react";
 import { CardContainer, CardBody, CardItem } from "./ui/3d-card";
 import { Link } from "react-router-dom";
 import { GoHeart, GoPaperAirplane } from "react-icons/go";
-import { useSelector } from "react-redux";
-import { getInitials } from "../lib/api";
+import { getNameInitials } from "../lib/api";
 
 const generateSlug = (title) => {
   return title
@@ -12,9 +11,17 @@ const generateSlug = (title) => {
     .replace(/[^\w-]+/g, "");
 };
 
-const MiddleCard = ({ title, date, image, subtitle, category }) => {
-  const userData = useSelector((state) => state.auth.userData);
+const MiddleCard = ({ title, name, date, image, subtitle, category }) => {
   const slug = generateSlug(title);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    let month = (date.getMonth() + 1).toString().padStart(2, '0');
+    let day = date.getDate().toString().padStart(2, '0');
+    
+    return `${year}-${month}-${day}`;
+  };
 
   return (
     <CardContainer className="inter-var">
@@ -22,18 +29,17 @@ const MiddleCard = ({ title, date, image, subtitle, category }) => {
         <CardItem className="w-full my-2 flex justify-between items-center flex-shrink-0 ">
           <Link to="/" className="flex items-center gap-2">
             <img
-              src={getInitials(userData)}
+              src={getNameInitials(name)}
               alt="user Profile"
               className="w-10 h-10 rounded-full border-2 border-red-600"
             />
-            <p>{userData.name}</p>
+            <p>{name}</p>
           </Link>
-          <p className="text-sm text-gray-400">{date}</p>
+          <p className="text-sm text-gray-400">{formatDate(date)}</p>
         </CardItem>
         <CardItem translateZ="100" className="w-full mt-4">
           <Link to={`/blog/${slug}`}>
             <img
-              // src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               src={image}
               height="1000"
               width="1000"

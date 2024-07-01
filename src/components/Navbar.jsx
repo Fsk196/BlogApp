@@ -59,8 +59,8 @@ const Navbar = () => {
   };
 
   return (
-    <div className="px-20 w-full mx-auto h-20 flex justify-between items-center shadow-lg rounded-md">
-      <div className="hidden md:flex justify-between w-full items-center">
+    <div className="w-full mx-auto h-20 flex justify-between items-center shadow-lg rounded-md">
+      <div className="hidden md:flex justify-between w-full items-center fixed pl-20 pr-10 z-50 bg-black/70">
         <div className="">
           <Link to="/">
             <h2 className="text-xl font-bold">VBlog</h2>
@@ -110,7 +110,7 @@ const Navbar = () => {
                   <img
                     src={getInitials(userData)}
                     alt="user profile"
-                    className="w-10 h-10 rounded-full border-2 border-white bg-white"
+                    className="w-10 h-10 rounded-full border-2 border-red-600 bg-white"
                   />
                   {/* <h2>{userData.name}</h2> */}
                 </Button>

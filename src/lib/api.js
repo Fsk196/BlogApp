@@ -18,7 +18,7 @@ export const createUserAccount = async (user) => {
       user.name
     );
     if (!newUser) throw Error;
-    const userDb = await saveUserToDB(user);
+    const userDb = await saveUserToDB(newUser);
     const session = await signInAccount(user);
     if (session) {
       const currentUser = await getCurrentUser();
@@ -32,6 +32,14 @@ export const createUserAccount = async (user) => {
 export const getInitials = (userData) => {
   try {
     return avatars.getInitials(userData.name);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getNameInitials = (name) => {
+  try {
+    return avatars.getInitials(name);
   } catch (error) {
     console.log(error);
   }
@@ -54,7 +62,7 @@ export const saveUserToDB = async (user) => {
       {
         email: user.email,
         name: user.name,
-        id: user.$id,
+        userId: user.$id,
       }
     );
     console.log(newUser);
@@ -105,4 +113,3 @@ export const signOutAccount = async () => {
     console.log(error);
   }
 };
-

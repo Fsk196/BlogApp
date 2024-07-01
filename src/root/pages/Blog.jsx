@@ -3,17 +3,17 @@ import { Input } from "../../components/ui/Input";
 import { Label } from "../../components/ui/Label";
 import { Switch } from "../../components/ui/switch";
 import { LabelInputContainer } from "../../components/index";
-import { getCurrentUser } from "../../lib/api";
 import { useSelector } from "react-redux";
 import { createPost } from "../../lib/appDataConf";
+import EditorComp from "../../components/EditorComp";
 
 const Blog = () => {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [content, setContent] = useState("");
-  const [status, setStatus] = useState("deactive");
+  const [status, setStatus] = useState(false);
   const userData = useSelector((state) => state.auth.userData);
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
 
   const date = new Date();
   const currentDate = `${date.getDate()}-${`0${date.getMonth() + 1}`.slice(
@@ -37,17 +37,12 @@ const Blog = () => {
     try {
       const slug = titleToSlug(title);
       console.log(slug);
-      const currentStatus =
-        status === "deactive"
-          ? document.getElementById("airplane-mode").checked
-            ? "active"
-            : "deactive"
-          : status;
+
       await createPost({
         title,
         content,
-        image,
-        status: currentStatus,
+        image: image,
+        status: status,
         userId: userData.$id,
         date: currentDate,
         subtitle,
@@ -56,18 +51,18 @@ const Blog = () => {
       setTitle("");
       setSubtitle("");
       setContent("");
-      setImage("");
+      setImage([]);
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <div className="w-full h-screen container mx-auto">
+    <div className="w-full h-screen container mx-auto mt-10">
       <div className="w-full flex flex-col gap-4">
         <form onSubmit={handleSubmit}>
           <LabelInputContainer className=" flex-row items-center  space-x-7">
-            <Label className="text-lg">Title</Label>
+            {/* <Label className="text-lg">Title</Label> */}
             <Input
               id="title"
               type="text"
@@ -78,7 +73,7 @@ const Blog = () => {
             />
           </LabelInputContainer>
           <LabelInputContainer className="w-full flex-row items-center  space-x-4">
-            <Label className="text-lg">Subtitle</Label>
+            {/* <Label className="text-lg">Subtitle</Label> */}
             <Input
               id="subtitle"
               type="text"
@@ -89,7 +84,7 @@ const Blog = () => {
             />
           </LabelInputContainer>
           <LabelInputContainer className="w-full flex-row items-center  space-x-4">
-            <Label className="text-lg">Content</Label>
+            {/* <Label className="text-lg">Content</Label> */}
             <Input
               id="title"
               type="text"
@@ -100,19 +95,23 @@ const Blog = () => {
             />
           </LabelInputContainer>
           <LabelInputContainer className="w-full flex-row items-center  space-x-4">
+            {/* <Label className="text-lg">Content Editor</Label> */}
+            <EditorComp />
+          </LabelInputContainer>
+          <LabelInputContainer className="w-full flex-row items-center  space-x-4">
             <Label className="text-lg">Image</Label>
-            {/* <Input
+            <Input
               id="image"
               type="file"
-              onChange={(e) => setImage(e.target.files[0])}
+              onChange={(e) => setImage(e.target.files[0] || null)}
               className="bg-transparent sm:w-96 h-48 w-48"
-            /> */}
-            <Input
+            />
+            {/* <Input
               id="image"
               type="text"
               onChange={(e) => setImage(e.target.value)}
               className="bg-transparent sm:w-96 h-48 w-48"
-            />
+            /> */}
           </LabelInputContainer>
           <div className="flex items-center space-x-2 my-2">
             <Label htmlFor="airplane-mode" className="text-xl">
@@ -121,10 +120,11 @@ const Blog = () => {
             <Switch
               id="airplane-mode"
               className=""
-              value={status}
-              onChange={(e) =>
-                setStatus(e.target.checked ? "active" : "deactive")
-              }
+              checked={status}
+              onCheckedChange={(checked) => {
+                setStatus(checked);
+                console.log("Checked", checked);
+              }}
             />
           </div>
           <button
