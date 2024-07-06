@@ -59,7 +59,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="w-full mx-auto h-20 flex justify-between items-center shadow-lg rounded-md">
+    <div className="w-full mx-auto  h-20 flex justify-between items-center shadow-lg rounded-md">
       <div className="hidden md:flex justify-between w-full items-center fixed pl-20 pr-10 z-50 bg-black/70">
         <div className="">
           <Link to="/">
@@ -67,13 +67,11 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="mx-2">
-          <Link to="/">
-            <Input
-              type="text"
-              className="bg-transparent sm:w-96 w-48"
-              placeholder="Search Blogs"
-            />
-          </Link>
+          <Input
+            type="text"
+            className="bg-transparent sm:w-96 w-48"
+            placeholder="Search Blogs"
+          />
         </div>
         <div className="hidden md:block">
           <Menu className="">
@@ -87,19 +85,6 @@ const Navbar = () => {
                 item="Create Blog"
               />
             </Link>
-            <Link to="/about">
-              <MenuItem setActive={setActive} active={active} item="About" />
-            </Link>
-            <Link to="/contact">
-              <MenuItem setActive={setActive} active={active} item="Contact" />
-            </Link>
-            {/* <button
-              id="logout-btn"
-              className="bg-red-600 hover:bg-red-600/90 shadow-md shadow-red-600 px-4 py-2 rounded-md"
-              onClick={handleLogout}
-            >
-              <MenuItem setActive={setActive} active={active} item="Logout" />
-            </button> */}
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -172,14 +157,11 @@ const Navbar = () => {
               <Link to="/" onClick={handleCloseMenu}>
                 Home
               </Link>
+              <Link to="/profile" onClick={handleCloseMenu}>
+                Profile
+              </Link>
               <Link to="/create-blog" onClick={handleCloseMenu}>
                 Create Blog
-              </Link>
-              <Link to="/about" onClick={handleCloseMenu}>
-                About
-              </Link>
-              <Link to="/contact" onClick={handleCloseMenu}>
-                Contact
               </Link>
               <button
                 id="logout-btn"

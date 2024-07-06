@@ -16,12 +16,11 @@ import Home from "./root/pages/Home.jsx";
 import AuthLayout from "./auth/AuthLayout.jsx";
 import RootLayout from "./root/RootLayout.jsx";
 import Blog from "./root/pages/Blog.jsx";
-import About from "./root/pages/About.jsx";
-import Contact from "./root/pages/Contact.jsx";
 import SignUp from "./auth/forms/SignUp.jsx";
 import { login } from "./features/auth/authSlice.js";
 import { account } from "./lib/appwrite.js";
 import BlogDetail from "./root/pages/BlogDetail.jsx";
+import Profile from "./root/pages/Profile.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,8 +35,7 @@ const router = createBrowserRouter(
         <Route element={<RootLayout />}>
           <Route index path="/" element={<Home />} />
           <Route index path="/create-blog" element={<Blog />} />
-          <Route index path="/about" element={<About />} />
-          <Route index path="/contact" element={<Contact />} />
+          <Route index path="/profile" element={<Profile />} />
           <Route index path="/blog/:slug" element={<BlogDetail />} />
         </Route>
       </Route>

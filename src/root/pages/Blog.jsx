@@ -58,8 +58,8 @@ const Blog = () => {
   };
 
   return (
-    <div className="w-full h-screen container mx-auto mt-10">
-      <div className="w-full flex flex-col gap-4">
+    <div className="w-full h-screen container mx-auto">
+      <div className="w-full flex flex-col gap-4 justify-center items-center h-screen">
         <form onSubmit={handleSubmit}>
           <LabelInputContainer className=" flex-row items-center  space-x-7">
             {/* <Label className="text-lg">Title</Label> */}
@@ -85,26 +85,26 @@ const Blog = () => {
           </LabelInputContainer>
           <LabelInputContainer className="w-full flex-row items-center  space-x-4">
             {/* <Label className="text-lg">Content</Label> */}
-            <Input
+            <textarea
               id="title"
               type="text"
               placeholder="Enter you content"
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              className="bg-transparent sm:w-96 w-48"
+              className="bg-zinc-800 my-2 rounded-sm px-2 sm:w-96 w-48 h-36 text-black"
             />
           </LabelInputContainer>
-          <LabelInputContainer className="w-full flex-row items-center  space-x-4">
-            {/* <Label className="text-lg">Content Editor</Label> */}
-            <EditorComp />
-          </LabelInputContainer>
-          <LabelInputContainer className="w-full flex-row items-center  space-x-4">
+          {/* <LabelInputContainer className="w-full flex-row items-center  space-x-4"> */}
+          {/* <Label className="text-lg">Content Editor</Label> */}
+          {/* <EditorComp />
+          </LabelInputContainer> */}
+          <LabelInputContainer className="w-full flex-row items-center  space-x-3 flex">
             <Label className="text-lg">Image</Label>
             <Input
               id="image"
               type="file"
               onChange={(e) => setImage(e.target.files[0] || null)}
-              className="bg-transparent sm:w-96 h-48 w-48"
+              className="bg-transparent sm:w-80  h-20"
             />
             {/* <Input
               id="image"

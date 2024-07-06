@@ -102,9 +102,9 @@ const Home = () => {
           </SelectContent>
         </Select>
       </div>
-      <h2 className="text-2xl font-medium text-gray-300 z-10">
+      {/* <h2 className="text-2xl font-medium text-gray-300 z-10">
         Welcome to Brand new Blogging App
-      </h2>
+      </h2> */}
       <div className="flex justify-center items-center h-full my-10 flex-wrap gap-4">
         {posts.map((post, index) => (
           <MiddleCard
