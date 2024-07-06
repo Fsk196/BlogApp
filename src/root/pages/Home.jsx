@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../components/ui/select";
-import { getFileView, getPosts, getUserById } from "../../lib/appDataConf";
+import { getFilePreview, getPosts, getUserById } from "../../lib/appDataConf";
 
 const Home = () => {
   const userData = useSelector((state) => state.auth.userData);
@@ -27,27 +27,17 @@ const Home = () => {
     const fetchPosts = async () => {
       setLoading(true);
       try {
-        const fetchedPosts = await getPosts();
+        const fetchedPosts = await getPosts(page);
         if (Array.isArray(fetchedPosts)) {
           const articlesWithUser = await Promise.all(
             fetchedPosts.map(async (article) => {
-              const user = await getUserById(article.userId);
-
-              let imageUrl = null;
-              if (article.uploadImage && article.uploadImage.$id) {
-                try {
-                  imageUrl = await getFileView(article.uploadImage.$id); // Use the appropriate method here
-                } catch (err) {
-                  console.error(
-                    `Error fetching image for post ${article.$id}:`,
-                    err
-                  );
-                }
-              }
-
+              const [user, fileUrl] = await Promise.all([
+                getUserById(article.userId),
+                article.image ? getFilePreview(article.image) : null,
+              ]);
               console.log(
                 `Fetched image URL for post ${article.$id}:`,
-                imageUrl
+                fileUrl
               );
 
               // Fetching image URL from appwrite storage
@@ -55,7 +45,7 @@ const Home = () => {
               //   ? await getFileView(article.uploadImage.$id)
               //   : null;
               // console.log(imageUrl);
-              return { ...article, user, imageUrl };
+              return { ...article, user, fileUrl };
             })
           );
           setPosts((prevPosts) => {
@@ -122,14 +112,14 @@ const Home = () => {
             title={post.title}
             name={post.user ? post.user.name : "Unknown"}
             subtitle={post.subtitle}
-            image={post.imageUrl}
+            image={post.fileUrl}
             category={post.category}
             date={post.date}
             ref={posts.length === index + 1 ? lastPostElementRef : null} // Attach ref to the last post element
           />
         ))}
         {loading && (
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 h-screen">
             Loading
             <div className="w-8 h-8 border-r-4 border-r-red-600 border-white/30 rounded-full animate-spin"></div>
           </div>

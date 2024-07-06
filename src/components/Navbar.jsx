@@ -112,7 +112,6 @@ const Navbar = () => {
                     alt="user profile"
                     className="w-10 h-10 rounded-full border-2 border-red-600 bg-white"
                   />
-                  {/* <h2>{userData.name}</h2> */}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56 bg-transparent text-white">

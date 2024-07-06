@@ -87,8 +87,15 @@ export const getPost = async (slug) => {
 };
 
 export const getPosts = async (
-  queries = [Query.equal("status", true), Query.orderDesc("date")]
+  page = 1,
+  limit = 10,
+  queries = [
+    Query.equal("status", true),
+    Query.orderDesc("date"),
+    Query.limit(limit),
+  ]
 ) => {
+  const offset = (page - 1) * limit;
   try {
     const response = await databases.listDocuments(
       appwriteConfig.databaseId,
@@ -141,9 +148,13 @@ export const deleteFile = async (fileId) => {
   }
 };
 
-export const getFileView = async (fileId) => {
+export const getFilePreview = async (fileId) => {
   try {
-    return storage.getFileView(appwriteConfig.storageId, fileId);
+    const fileUrl = await storage.getFilePreview(
+      appwriteConfig.storageId,
+      fileId
+    );
+    return fileUrl.href;
   } catch (error) {
     console.log(error);
   }
