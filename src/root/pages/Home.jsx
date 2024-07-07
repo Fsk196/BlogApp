@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MiddleCard from "../../components/MiddleCard";
 import {
   Select,
@@ -11,10 +11,13 @@ import {
   SelectValue,
 } from "../../components/ui/select";
 import { getFilePreview, getPosts, getUserById } from "../../lib/appDataConf";
+import { addPosts } from "../../features/actions/post";
 
 const Home = () => {
-  const userData = useSelector((state) => state.auth.userData);
-  const [posts, setPosts] = useState([]);
+  const dispatch = useDispatch();
+  const posts = useSelector((state) => state.post.posts);
+  // const userData = useSelector((state) => state.auth.userData);
+  //const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   // Page state for infinite scrolling
   const [page, setPage] = useState(1);
@@ -35,25 +38,17 @@ const Home = () => {
                 getUserById(article.userId),
                 article.image ? getFilePreview(article.image) : null,
               ]);
-              console.log(
-                `Fetched image URL for post ${article.$id}:`,
-                fileUrl
-              );
-
-              // Fetching image URL from appwrite storage
-              // const imageUrl = article.uploadImage
-              //   ? await getFileView(article.uploadImage.$id)
-              //   : null;
-              // console.log(imageUrl);
               return { ...article, user, fileUrl };
             })
           );
-          setPosts((prevPosts) => {
-            const newPosts = articlesWithUser.filter(
-              (post) => !prevPosts.some((p) => p.$id === post.$id)
-            );
-            return [...prevPosts, ...newPosts];
-          });
+
+          // filter out the duplicates posts
+          const uniqueArticles = articlesWithUser.filter(
+            (article) =>
+              !posts.some((existingPost) => existingPost.$id === article.$id)
+          );
+
+          dispatch(addPosts(uniqueArticles));
           setHasMore(fetchedPosts.length > 0); // Check if there are more posts to load
         } else {
           console.error("Fetched posts is not an array:", fetchedPosts);
@@ -64,7 +59,7 @@ const Home = () => {
       setLoading(false);
     };
     fetchPosts();
-  }, [page]);
+  }, [page, dispatch]);
 
   const lastPostElementRef = useCallback(
     (node) => {
@@ -108,7 +103,7 @@ const Home = () => {
       <div className="flex justify-center items-center h-full my-10 flex-wrap gap-4">
         {posts.map((post, index) => (
           <MiddleCard
-            key={post.$id} // Assuming post has a unique identifier like $id
+            key={post?.$id} // Assuming post has a unique identifier like $id
             title={post.title}
             name={post.user ? post.user.name : "Unknown"}
             subtitle={post.subtitle}

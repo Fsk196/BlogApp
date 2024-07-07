@@ -95,7 +95,7 @@ export const getPosts = async (
     Query.limit(limit),
   ]
 ) => {
-  const offset = (page - 1) * limit;
+  // const offset = (page - 1) * limit;
   try {
     const response = await databases.listDocuments(
       appwriteConfig.databaseId,
