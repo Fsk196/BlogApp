@@ -1,8 +1,9 @@
 import React from "react";
 import { CardContainer, CardBody, CardItem } from "./ui/3d-card";
 import { Link } from "react-router-dom";
-import { GoHeart, GoPaperAirplane } from "react-icons/go";
+import { GoHeart } from "react-icons/go";
 import { getNameInitials } from "../lib/api";
+import CoypUrl from "../components/CopyUrl";
 
 const generateSlug = (title) => {
   return title
@@ -17,9 +18,9 @@ const MiddleCard = ({ title, name, date, image, subtitle, category }) => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
-    let month = (date.getMonth() + 1).toString().padStart(2, '0');
-    let day = date.getDate().toString().padStart(2, '0');
-    
+    let month = (date.getMonth() + 1).toString().padStart(2, "0");
+    let day = date.getDate().toString().padStart(2, "0");
+
     return `${year}-${month}-${day}`;
   };
 
@@ -77,7 +78,8 @@ const MiddleCard = ({ title, name, date, image, subtitle, category }) => {
               <GoHeart className="text-2xl cursor-pointer" />
               <span className="text-lg text-gray-500">0</span>
             </span>
-            <GoPaperAirplane className="text-2xl cursor-pointer" />
+
+            <CoypUrl slug={slug} />
           </CardItem>
         </div>
       </CardBody>
