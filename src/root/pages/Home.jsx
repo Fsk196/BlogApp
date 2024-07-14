@@ -80,7 +80,7 @@ const Home = () => {
   }
 
   return (
-    <div className="w-full h-full flex flex-col justify-center gap-2 items-center container mx-auto">
+    <div className="w-full min-h-screen h-full flex flex-col justify-center gap-2 items-center container mx-auto">
       <div className="w-full container mx-auto h-24 flex justify-start mr-20 items-center gap-3">
         <Select>
           <SelectTrigger className="w-[100px]" isIcon="true">
