@@ -113,14 +113,14 @@ const Home = () => {
             ref={posts.length === index + 1 ? lastPostElementRef : null} // Attach ref to the last post element
           />
         ))}
-        {loading && (
-          <div className="flex items-center gap-4 h-screen">
-            Loading
-            <div className="w-8 h-8 border-r-4 border-r-red-600 border-white/30 rounded-full animate-spin"></div>
-          </div>
-        )}
-        {!hasMore && <div>No more posts</div>}
       </div>
+      {loading && (
+        <div className="flex items-center gap-4 h-screen">
+          Loading
+          <div className="w-8 h-8 border-r-4 border-r-red-600 border-white/30 rounded-full animate-spin"></div>
+        </div>
+      )}
+      {!hasMore && <div>No more posts</div>}
     </div>
   );
 };

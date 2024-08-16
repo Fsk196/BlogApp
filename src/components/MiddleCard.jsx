@@ -6,9 +6,13 @@ import { getNameInitials } from "../lib/api";
 import CoypUrl from "../components/CopyUrl";
 
 const generateSlug = (title) => {
-  return title
+  const trimedTitle = title.trim();
+
+  const trimTitle =
+    trimedTitle.length > 36 ? trimedTitle.slice(0, 36) : trimedTitle;
+  return trimTitle
     .toLowerCase()
-    .replace(/ /g, "-")
+    .replace(/ /g, "-") // replaces the spaces between words with hypens
     .replace(/[^\w-]+/g, "");
 };
 
