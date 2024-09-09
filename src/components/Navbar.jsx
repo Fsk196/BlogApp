@@ -66,7 +66,7 @@ const Navbar = () => {
           <Link to="/">
             {/* <h2 className="text-xl font-bold">VBlog</h2> */}
             <img
-              src="src\assets\navlogo.png"
+              src="/src/assets/navlogo.png"
               width={70}
               height={20}
               alt="navlogo"
@@ -138,7 +138,7 @@ const Navbar = () => {
         <div className="">
           <Link to="/">
             <img
-              src="src\assets\navlogo.png"
+              src="/src/assets/navlogo.png"
               width={70}
               height={20}
               alt="navlogo"
