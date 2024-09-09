@@ -44,11 +44,11 @@ const router = createBrowserRouter(
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <div className="bg-black text-white">
-        <RouterProvider router={router} />
-      </div>
-    </Provider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <Provider store={store}>
+    <div className="bg-black text-white">
+      <RouterProvider router={router} />
+    </div>
+  </Provider>
+  // </React.StrictMode>
 );

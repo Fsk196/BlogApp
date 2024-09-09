@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import { GoHeart } from "react-icons/go";
 import { getNameInitials } from "../lib/api";
 import CoypUrl from "../components/CopyUrl";
+import { Button } from "./ui/button";
+import { FaRegEdit } from "react-icons/fa";
+import { MdOutlineDeleteForever } from "react-icons/md";
 
 const generateSlug = (title) => {
   const trimedTitle = title.trim();
@@ -16,8 +19,8 @@ const generateSlug = (title) => {
     .replace(/[^\w-]+/g, "");
 };
 
-const MiddleCard = React.forwardRef(
-  ({ title, name, date, image, subtitle, category }, ref) => {
+const MyPosts = React.memo(
+  ({ title, name, date, image, subtitle, category }) => {
     const slug = generateSlug(title);
 
     const formatDate = (dateString) => {
@@ -31,7 +34,17 @@ const MiddleCard = React.forwardRef(
 
     return (
       <CardContainer className="inter-var">
-        <CardBody className="bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1]  sm:w-[25rem] h-auto rounded-xl p-6 border">
+        <CardBody className="bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[25rem] h-auto rounded-xl p-6 border">
+          <CardItem className="flex justify-between w-full">
+            <Button className="gap-2">
+              <FaRegEdit />
+              Edit
+            </Button>
+            <Button variant="destructive" className="gap-1">
+              <MdOutlineDeleteForever />
+              Delete
+            </Button>
+          </CardItem>
           <CardItem className="w-full my-2 flex justify-between items-center flex-shrink-0 ">
             <Link to="/" className="flex items-center gap-2">
               <img
@@ -93,4 +106,4 @@ const MiddleCard = React.forwardRef(
   }
 );
 
-export default MiddleCard;
+export default MyPosts;

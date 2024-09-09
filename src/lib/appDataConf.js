@@ -95,7 +95,7 @@ export const getPosts = async (
     Query.limit(limit),
   ]
 ) => {
-  // const offset = (page - 1) * limit;
+  const offset = (page - 1) * limit;
   try {
     const response = await databases.listDocuments(
       appwriteConfig.databaseId,
@@ -106,6 +106,21 @@ export const getPosts = async (
   } catch (error) {
     console.log(error);
     return false;
+  }
+};
+
+export const getCurrentUsersPost = async (userId) => {
+  try {
+    const response = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.articleCollectionId,
+      [Query.equal("userId", userId)]
+    );
+    console.log("The current user's posts: ", response.documents);
+
+    return response.documents;
+  } catch (error) {
+    console.log("Error Fecthing user posts: ", error);
   }
 };
 

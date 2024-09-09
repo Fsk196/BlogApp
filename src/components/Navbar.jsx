@@ -23,6 +23,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { MdCreate } from "react-icons/md";
 
 const Navbar = () => {
   const [active, setActive] = useState(null);
@@ -59,17 +60,23 @@ const Navbar = () => {
   };
 
   return (
-    <div className="w-full mx-auto  h-20 flex justify-between items-center shadow-lg rounded-md">
-      <div className="hidden md:flex justify-between w-full items-center fixed pl-20 pr-10 z-50 bg-black/70">
+    <div className="w-full mx-auto  h-20 flex justify-between items-center shadow-lg rounded-md ">
+      <div className="hidden md:flex justify-between w-full items-center fixed pl-20 pr-10 z-10 bg-black/70">
         <div className="">
           <Link to="/">
-            <h2 className="text-xl font-bold">VBlog</h2>
+            {/* <h2 className="text-xl font-bold">VBlog</h2> */}
+            <img
+              src="src\assets\navlogo.png"
+              width={70}
+              height={20}
+              alt="navlogo"
+            />
           </Link>
         </div>
         <div className="mx-2">
           <Input
             type="text"
-            className="bg-transparent sm:w-96 w-48"
+            className="bg-transparent sm:w-80 w-48"
             placeholder="Search Blogs"
           />
         </div>
@@ -79,11 +86,7 @@ const Navbar = () => {
               <MenuItem setActive={setActive} active={active} item="Home" />
             </Link>
             <Link to="/create-blog">
-              <MenuItem
-                setActive={setActive}
-                active={active}
-                item="Create Blog"
-              />
+              <MenuItem setActive={setActive} active={active} item="Create" />
             </Link>
 
             <DropdownMenu>
@@ -99,7 +102,7 @@ const Navbar = () => {
                   />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56 bg-transparent text-white">
+              <DropdownMenuContent className="w-40 bg-transparent text-white">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
@@ -131,10 +134,15 @@ const Navbar = () => {
 
       {/* Mobile Navbar starts here */}
 
-      <div className="relative container w-full mx-auto h-20 flex justify-between items-center shadow-lg rounded-md md:hidden">
+      <div className="relative container w-full mx-auto h-20 flex justify-between items-center shadow-lg rounded-md md:hidden z-10">
         <div className="">
           <Link to="/">
-            <h2 className="text-xl font-bold">VBlog</h2>
+            <img
+              src="src\assets\navlogo.png"
+              width={70}
+              height={20}
+              alt="navlogo"
+            />
           </Link>
         </div>
         <div className="mx-2">
@@ -152,8 +160,8 @@ const Navbar = () => {
               <HiOutlineMenu className="text-xl" />
             )}
           </button>
-          <div id="mobNav" className="z-50 hidden">
-            <div className="absolute w-40 rounded-lg  h-80 bg-black transition-all duration-100 right-0 top-20  drop-shadow-lg z-50 flex justify-center items-start px-4 flex-col text-lg gap-4 border">
+          <div id="mobNav" className="hidden z-10 px-4">
+            <div className="absolute w-[90%] rounded-lg h-80 bg-black transition-all duration-100 right-4 top-20  drop-shadow-lg z-10 flex justify-center items-start px-4 flex-col text-lg gap-4 border">
               <Link to="/" onClick={handleCloseMenu}>
                 Home
               </Link>

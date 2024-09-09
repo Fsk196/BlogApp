@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Login, Navbar, Footer } from "./components";
+import { Login, Navbar } from "./components";
 import { Outlet } from "react-router-dom";
 
 function App() {
@@ -11,7 +11,6 @@ function App() {
         <>
           <Navbar />
           <Outlet />
-          <Footer />
         </>
       ) : (
         <>

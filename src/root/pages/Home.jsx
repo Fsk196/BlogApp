@@ -12,12 +12,12 @@ import {
 } from "../../components/ui/select";
 import { getFilePreview, getPosts, getUserById } from "../../lib/appDataConf";
 import { addPosts } from "../../features/actions/post";
+import { getCurrentUser } from "../../lib/api";
 
 const Home = () => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.post.posts);
-  // const userData = useSelector((state) => state.auth.userData);
-  //const [posts, setPosts] = useState([]);
+
   const [loading, setLoading] = useState(true);
   // Page state for infinite scrolling
   const [page, setPage] = useState(1);
@@ -30,6 +30,11 @@ const Home = () => {
     const fetchPosts = async () => {
       setLoading(true);
       try {
+        const user = await getCurrentUser();
+        if (!user) {
+          throw new Error("User is not authenticated");
+        }
+
         const fetchedPosts = await getPosts(page);
         if (Array.isArray(fetchedPosts)) {
           const articlesWithUser = await Promise.all(
@@ -80,7 +85,7 @@ const Home = () => {
   }
 
   return (
-    <div className="w-full min-h-screen h-full flex flex-col justify-center gap-2 items-center container mx-auto">
+    <div className="w-full min-h-screen h-full flex flex-col z-0">
       <div className="w-full container mx-auto h-24 flex justify-start mr-20 items-center gap-3">
         <Select>
           <SelectTrigger className="w-[100px]" isIcon="true">
@@ -89,7 +94,7 @@ const Home = () => {
           <SelectContent>
             <SelectGroup>
               <SelectLabel className="">Blog</SelectLabel>
-              <SelectItem value="apple">New Blog</SelectItem>
+              <SelectItem value="apple">All Blogs</SelectItem>
               <SelectItem value="banana">Today</SelectItem>
               <SelectItem value="blueberry">Montly</SelectItem>
               <SelectItem value="grapes">Yearly</SelectItem>
@@ -97,30 +102,29 @@ const Home = () => {
           </SelectContent>
         </Select>
       </div>
-      {/* <h2 className="text-2xl font-medium text-gray-300 z-10">
-        Welcome to Brand new Blogging App
-      </h2> */}
-      <div className="flex justify-center items-center h-full my-10 flex-wrap gap-4">
-        {posts.map((post, index) => (
-          <MiddleCard
-            key={post?.$id} // Assuming post has a unique identifier like $id
-            title={post.title}
-            name={post.user ? post.user.name : "Unknown"}
-            subtitle={post.subtitle}
-            image={post.fileUrl}
-            category={post.category}
-            date={post.date}
-            ref={posts.length === index + 1 ? lastPostElementRef : null} // Attach ref to the last post element
-          />
-        ))}
-      </div>
-      {loading && (
-        <div className="flex items-center gap-4 h-screen">
-          Loading
-          <div className="w-8 h-8 border-r-4 border-r-red-600 border-white/30 rounded-full animate-spin"></div>
+      <div className="w-full min-h-screen h-full flex flex-col justify-start gap-2 items-center container mx-auto">
+        <div className="flex justify-center items-center h-full flex-wrap gap-4">
+          {posts.map((post, index) => (
+            <MiddleCard
+              key={post?.$id} // Assuming post has a unique identifier like $id
+              title={post.title}
+              name={post.user ? post.user.name : "Unknown"}
+              subtitle={post.subtitle}
+              image={post.fileUrl}
+              category={post.category}
+              date={post.date}
+              ref={posts.length === index + 1 ? lastPostElementRef : null} // Attach ref to the last post element
+            />
+          ))}
         </div>
-      )}
-      {!hasMore && <div>No more posts</div>}
+        {loading && (
+          <div className="flex items-center gap-4 h-screen">
+            Loading
+            <div className="w-8 h-8 border-r-4 border-r-red-600 border-white/30 rounded-full animate-spin"></div>
+          </div>
+        )}
+        {!hasMore && <div>No more posts</div>}
+      </div>
     </div>
   );
 };
